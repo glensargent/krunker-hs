@@ -1,8 +1,8 @@
 cabal-version:      3.0
 name:               krunker-hs
 version:            0.1.0.0
--- synopsis:
--- description:
+synopsis:           Haskell client for the Krunker API
+description:        Haskell client for the Krunker API
 homepage:           glensargent.com
 license:            BSD-3-Clause
 license-file:       LICENSE
