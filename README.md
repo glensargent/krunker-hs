@@ -2,6 +2,8 @@
 
 Haskell client library for the Krunker Developer API.
 
+**Requirements:** GHC 8.10+, Cabal 3.0+
+
 ## Installation
 
 Add to your `build-depends` in your `.cabal` file:
