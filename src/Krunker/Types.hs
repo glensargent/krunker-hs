@@ -162,7 +162,8 @@ data PlayerMatch = PlayerMatch
     pmVictory :: Int,
     pmRoundsWon :: Int,
     pmTeam :: Int,
-    pmPlayTime :: Int
+    pmPlayTime :: Int,
+    pmMmr :: Int
   }
   deriving (Show, Generic)
 
@@ -188,6 +189,7 @@ instance FromJSON PlayerMatch where
       <*> v .: "rounds_won"
       <*> v .: "team"
       <*> v .: "play_time"
+      <*> v .: "mmr"
 
 instance ToJSON PlayerMatch
 
@@ -478,6 +480,30 @@ instance FromJSON MapLeaderboardResponse where
       <*> v .: "entries"
 
 instance ToJSON MapLeaderboardResponse
+
+data MapLeaderboardPlayerResponse = MapLeaderboardPlayerResponse
+  { mlprMapName :: Text,
+    mlprLeaderboardType :: Text,
+    mlprLeaderboardOrder :: Int,
+    mlprPlayerName :: Text,
+    mlprPosition :: Int,
+    mlprValue :: Int,
+    mlprDate :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON MapLeaderboardPlayerResponse where
+  parseJSON = withObject "MapLeaderboardPlayerResponse" $ \v ->
+    MapLeaderboardPlayerResponse
+      <$> v .: "map_name"
+      <*> v .: "leaderboard_type"
+      <*> v .: "leaderboard_order"
+      <*> v .: "player_name"
+      <*> v .: "position"
+      <*> v .: "value"
+      <*> v .: "date"
+
+instance ToJSON MapLeaderboardPlayerResponse
 
 data Mod = Mod
   { modId :: Int,
