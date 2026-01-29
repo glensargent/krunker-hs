@@ -69,10 +69,10 @@ getClanMembers client name mPage =
   requestAndDecode client ("/clan/" <> name <> "/members") $
     catMaybes [optionalParam "page" mPage]
 
-getLeaderboard :: Client -> Int -> Maybe Int -> IO (Either ApiError LeaderboardResponse)
-getLeaderboard client region mPage =
+getLeaderboard :: Client -> Int -> Maybe Int -> Maybe Int -> IO (Either ApiError LeaderboardResponse)
+getLeaderboard client region mPage mSeason =
   requestAndDecode client ("/leaderboard/" <> pack (show region)) $
-    catMaybes [optionalParam "page" mPage]
+    catMaybes [optionalParam "page" mPage, optionalParam "season" mSeason]
 
 getMap :: Client -> Text -> IO (Either ApiError GameMap)
 getMap client name = requestAndDecode client ("/map/" <> name) []
@@ -82,6 +82,10 @@ getMapLeaderboard client name mPage =
   requestAndDecode client ("/map/" <> name <> "/leaderboard") $
     catMaybes [optionalParam "page" mPage]
 
+getMapLeaderboardPlayer :: Client -> Text -> Text -> IO (Either ApiError MapLeaderboardPlayerResponse)
+getMapLeaderboardPlayer client mapName playerName =
+  requestAndDecode client ("/map/" <> mapName <> "/leaderboard/player/" <> playerName) []
+
 getMods :: Client -> Maybe Int -> IO (Either ApiError ModsResponse)
 getMods client mPage =
   requestAndDecode client "/mods" $
@@ -90,7 +94,7 @@ getMods client mPage =
 getMod :: Client -> Text -> IO (Either ApiError Mod)
 getMod client name = requestAndDecode client ("/mods/" <> name) []
 
-getMarketSkin :: Client -> Int -> Maybe Int -> IO (Either ApiError MarketResponse)
-getMarketSkin client skinIndex mPage =
+getMarketSkin :: Client -> Int -> Maybe Int -> Maybe Int -> IO (Either ApiError MarketResponse)
+getMarketSkin client skinIndex mPage mDays =
   requestAndDecode client ("/market/skin/" <> pack (show skinIndex)) $
-    catMaybes [optionalParam "page" mPage]
+    catMaybes [optionalParam "page" mPage, optionalParam "days" mDays]
