@@ -4,6 +4,7 @@
 module Krunker.Types where
 
 import Data.Aeson
+import Data.Int (Int64)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
@@ -78,6 +79,9 @@ data Player = Player
     playerJuggernautsKilled :: Int,
     playerWarmachines :: Int,
     playerHackerTagged :: Bool,
+    playerKpd :: Bool,
+    playerPremium :: Bool,
+    playerProfilePicture :: Text,
     playerCreatedAt :: Text
   }
   deriving (Show, Generic)
@@ -125,6 +129,9 @@ instance FromJSON Player where
       <*> v .: "juggernauts_killed"
       <*> v .: "warmachines"
       <*> v .: "hacker_tagged"
+      <*> v .: "kpd"
+      <*> v .: "premium"
+      <*> v .: "profile_picture"
       <*> v .: "created_at"
 
 instance ToJSON Player
@@ -142,6 +149,38 @@ instance FromJSON InventoryItem where
       <*> v .: "count"
 
 instance ToJSON InventoryItem
+
+data PlayerListing = PlayerListing
+  { plSkinIndex :: Int,
+    plPrice :: Int,
+    plListedAt :: Int64
+  }
+  deriving (Show, Generic)
+
+instance FromJSON PlayerListing where
+  parseJSON = withObject "PlayerListing" $ \v ->
+    PlayerListing
+      <$> v .: "skin_index"
+      <*> v .: "price"
+      <*> v .: "listed_at"
+
+instance ToJSON PlayerListing
+
+data PlayerListingsResponse = PlayerListingsResponse
+  { plrPage :: Int,
+    plrPerPage :: Int,
+    plrListings :: [PlayerListing]
+  }
+  deriving (Show, Generic)
+
+instance FromJSON PlayerListingsResponse where
+  parseJSON = withObject "PlayerListingsResponse" $ \v ->
+    PlayerListingsResponse
+      <$> v .: "page"
+      <*> v .: "per_page"
+      <*> v .: "listings"
+
+instance ToJSON PlayerListingsResponse
 
 data PlayerMatch = PlayerMatch
   { pmMatchId :: Int,

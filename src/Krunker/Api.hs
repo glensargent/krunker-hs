@@ -48,6 +48,11 @@ getPlayer client name = requestAndDecode client ("/player/" <> name) []
 getPlayerInventory :: Client -> Text -> IO (Either ApiError [InventoryItem])
 getPlayerInventory client name = requestAndDecode client ("/player/" <> name <> "/inventory") []
 
+getPlayerListings :: Client -> Text -> Maybe Int -> IO (Either ApiError PlayerListingsResponse)
+getPlayerListings client name mPage =
+  requestAndDecode client ("/player/" <> name <> "/listings") $
+    catMaybes [optionalParam "page" mPage]
+
 getPlayerMatches :: Client -> Text -> Maybe Int -> Maybe Int -> IO (Either ApiError PlayerMatchesResponse)
 getPlayerMatches client name mPage mSeason =
   requestAndDecode client ("/player/" <> name <> "/matches") $
