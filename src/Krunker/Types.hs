@@ -4,7 +4,6 @@
 module Krunker.Types where
 
 import Data.Aeson
-import Data.Int (Int64)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
@@ -153,7 +152,7 @@ instance ToJSON InventoryItem
 data PlayerListing = PlayerListing
   { plSkinIndex :: Int,
     plPrice :: Int,
-    plListedAt :: Int64
+    plListedAt :: Text
   }
   deriving (Show, Generic)
 
